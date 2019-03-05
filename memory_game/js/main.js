@@ -1,7 +1,8 @@
 console.log("Begin JavaScript");
 
-//Create card variables:
+//============VARIABLE DECLARATIONS============
 
+//Create card variables:
 var cards = 
 [
 	{
@@ -27,6 +28,23 @@ var cards =
 ];
 var cardsInPlay = [];
 
+//============FUNCTIONS============
+
+//Create board function:
+var createBoard = function()
+{
+	//This function adds the cards to the gameboard div in the HTML
+
+	for (var i = 0; i < cards.length; i++)
+	{
+		var cardElement = document.createElement('img');
+		cardElement.setAttribute('src', "images/back.png");
+		cardElement.setAttribute('data-id', i);
+		cardElement.addEventListener('click', flipCard);
+		document.getElementById('game-board').appendChild(cardElement);
+	}
+}
+
 //Check for match function:
 var checkForMatch = function()
 {
@@ -41,12 +59,16 @@ var checkForMatch = function()
 }
 
 //Flip function:
-var flipCard = function(cardId)
+var flipCard = function()
 {
+	//This function flips a card (should only be called from an event listener)
+	cardId = this.getAttribute('data-id');
 	cardsInPlay.push(cards[cardId].rank);
 	console.log("User flipped " + cardsInPlay[cardsInPlay.length-1]);
 	console.log("Suit: " + cards[cardId].suit);
 	console.log("Image path: " + cards[cardId].cardImage);
+
+	this.setAttribute('src', cards[this.getAttribute('data-id')].cardImage);
 
 	if (cardsInPlay.length === 2)
 	{
@@ -54,5 +76,8 @@ var flipCard = function(cardId)
 	}
 }
 
-flipCard(0);
-flipCard(2);
+
+createBoard();
+
+//flipCard(0);
+//flipCard(2);
